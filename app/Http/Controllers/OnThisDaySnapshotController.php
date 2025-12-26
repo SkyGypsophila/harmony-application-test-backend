@@ -44,10 +44,7 @@ class OnThisDaySnapshotController extends Controller
         });
 
         return response()->json([
-            'date' => sprintf('%02d-%02d', $mm, $dd),
-            'lang' => $lang,
-            'type' => $type,
-            ...$data
+            'data' => $data
         ]);
     }
 }
