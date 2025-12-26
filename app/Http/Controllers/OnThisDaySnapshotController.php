@@ -20,7 +20,7 @@ class OnThisDaySnapshotController extends Controller
         $this->provider = $provider;
     }
 
-    public function today(Request $request)
+    public function historicalToday(Request $request)
     {
         $lang = $request->query('lang', 'zh');
         $type = $request->query('type', 'selected');
@@ -50,39 +50,4 @@ class OnThisDaySnapshotController extends Controller
             ...$data
         ]);
     }
-
-    private function trimPayload(array $payload): array
-    {
-        $max = config('onthisday.max_items');
-
-        $trimList = function ($arr) use ($max) {
-            $arr = is_array($arr) ? $arr : [];
-            $arr = array_slice($arr, 0, $max);
-
-            return array_map(function ($x) {
-                return [
-                    'year' => $x['year'] ?? null,
-                    'text' => $x['text'] ?? '',
-                    'pages' => array_map(function ($p) {
-                        return [
-                            'title'   => $p['titles']['display'] ?? null,
-                            'pageUrl' => $p['content_urls']['desktop']['page'] ?? null,
-                            'thumb'   => $p['thumbnail']['source'] ?? null,
-                            'pageid'  => $p['pageid'] ?? null,
-                        ];
-                    }, $x['pages'] ?? []),
-                ];
-            }, $arr);
-        };
-
-        // 有的 type 返回体里只有单一字段；这里统一都输出，前端好写
-        return [
-            'selected'  => $trimList($payload['selected'] ?? []),
-            'events'    => $trimList($payload['events'] ?? []),
-            'births'    => $trimList($payload['births'] ?? []),
-            'deaths'    => $trimList($payload['deaths'] ?? []),
-            'holidays'  => $trimList($payload['holidays'] ?? []),
-        ];
-    }
-
 }
