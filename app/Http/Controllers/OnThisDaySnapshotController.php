@@ -39,7 +39,7 @@ class OnThisDaySnapshotController extends Controller
                 ->where('type', $this->type)
                 ->where('month', $mm)
                 ->where('day', $dd)
-                ->select(['id', 'lang', 'month', 'day', 'type', 'payload', 'event_datetime'])
+                ->select(['id', 'lang', 'month', 'day', 'type', 'text', 'payload', 'event_datetime'])
                 ->first();
         });
 
