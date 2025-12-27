@@ -23,6 +23,7 @@ return new class extends Migration
             $table->dateTime('event_datetime')->nullable();
 
             $table->index(['year', 'lang', 'type', 'month', 'day']);
+            // ADD. Convert text field => to fixed length using base64
             $table->timestamps();
         });
     }

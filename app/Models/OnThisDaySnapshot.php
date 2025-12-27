@@ -11,6 +11,12 @@ class OnThisDaySnapshot extends Model
     ];
 
     protected $casts = [
+        'event_datetime' => 'datetime',
         'payload' => 'array',
     ];
+
+    public function getEventDatetimeAttribute($value): string
+    {
+        return $this->asDateTime($value)->toIso8601String();
+    }
 }
